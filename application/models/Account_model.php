@@ -174,7 +174,7 @@ class Account_model extends CI_model{
     if ($filename==null) {
       $data['list'] = $this->getAllData('view_document');
     } else {
-      $data['list'] = $this->db->query('select * from view_document where document_name LIKE "%'.$filename.'%" fullname LIKE "%'.$filename.'%" info LIKE "%'.$filename.'%"')->result();
+      $data['list'] = $this->db->query('select * from view_document where document_name LIKE "%'.$filename.'%" ')->result();
     }
     $data['title'] = 'Rekap Dokumen';
     $data['view_name'] = 'document'.$this->session->userdata['login'];

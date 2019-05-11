@@ -1,4 +1,8 @@
 <!doctype html>
+<?php if ($this->session->userdata['login']!='true'){
+  redirect(base_url(''));
+
+} ?>
 <html lang="en">
 
 <head>
