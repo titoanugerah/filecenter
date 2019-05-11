@@ -27,16 +27,6 @@ class Account extends CI_Controller{
     redirect(base_url('login/4'));
   }
 
-  public function forgotPassword()
-  {
-    $data['content'] = $this->account_model->cForgotPassword(1);
-    if ($this->input->post('resetPassword')) {
-      $account = $this->account_model->resetPassword();
-      $data['content'] = $this->account_model->cForgotPassword($account+1);
-    }
-    $this->load->view('forgotPassword', $data);
-  }
-
   public function dashboard()
   {
     $data['content'] = $this->account_model->cDashboard();
@@ -65,6 +55,22 @@ class Account extends CI_Controller{
   {
     $data['content'] = $this->account_model->cError404();
     $this->load->view('template', $data);
+  }
+
+  public function document()
+  {
+    $update['file'] = null;
+    if($this->input->post('uploadFile')){$update = $this->account_model->processUploadFile();}
+    elseif($this->input->post('findFile')){$update['file'] = $this->input->post('document_name');}
+    $data['content'] = $this->account_model->cDocument($update['file']);
+
+    $this->load->view('template', $data);
+  }
+
+  public function download($id)
+  {
+    $this->load->helper('download');
+    force_download('./assets/upload/'.$this->account_model->getDataRow('document', 'id', $id)->address, null);
   }
 }
 

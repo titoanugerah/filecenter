@@ -36,26 +36,16 @@ class Admin extends CI_Controller{
   {
     $delete['status'] = 0;
     if ($this->input->post('deleteAccount')) {$delete = $this->admin_model->deleteAccount($id); redirect(base_url('account'));}
-    elseif ($this->input->post('createKKP')) {$delete = $this->admin_model->createKKP($id);}
-    elseif ($this->input->post('updateAccount')) {$delete = $this->admin_model->updateAccount($id);}
+    elseif ($this->input->post('resetPassword')) {$delete = $this->admin_model->resetPassword($id);}
     $data['content'] = $this->admin_model->cDetailAccount($id, $delete['status']);
     $this->load->view('template', $data);
   }
 
-  public function theme()
+  public function detailAdmin($id)
   {
-    $operation['status'] = 0;
-    if ($this->input->post('createTheme')) {$operation = $this->admin_model->createTheme($id);}
-    $data['content'] = $this->admin_model->cTheme($operation['status']);
-    $this->load->view('template', $data);
-  }
-
-  public function detailTheme($id)
-  {
-    $operation['status'] = 0;
     if ($this->input->post('updateTheme')) {$operation = $this->admin_model->updateTheme($id);}
     elseif ($this->input->post('deleteTheme')) {$operation = $this->admin_model->deleteTheme($id); if($operation['status']==5){redirect(base_url($operation['redirect']));}}
-    $data['content'] = $this->admin_model->cDetailTheme($id, $operation['status']);
+    $data['content'] = $this->admin_model->cDetailDocument($id);
     $this->load->view('template', $data);
 
   }

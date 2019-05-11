@@ -17,14 +17,19 @@
   </a>
 </li>
 <li class="nav-item active">
-  <a class="nav-link" href=" <?php echo base_url('theme'); ?> ">
+  <a class="nav-link" href=" <?php echo base_url('document'); ?> ">
     <i class="material-icons">widgets</i>
-    <p>Tema KP&TA</p>
+    <p>Dokumen</p>
+  </a>
+</li>
+
+<li class="nav-item active">
+  <a class="nav-link" href="<?php echo base_url('profile'); ?>">
+    <i class="material-icons">person</i> Profil
   </a>
 </li>
 <li class="nav-item active">
-  <a class="nav-link" href=" <?php echo base_url('recapOrder'); ?> ">
-    <i class="material-icons">announcement</i>
-    <p>Pesanan</p>
+  <a class="nav-link" href="<?php echo base_url('logout'); ?>">
+    <i class="material-icons">meeting_room</i> Logout
   </a>
 </li>

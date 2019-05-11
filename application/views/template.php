@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url('./assets/template/material/');?>assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="<?php echo base_url('./assets/image/undip-original.png'); ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>SISTA | <?php echo $content['title']; ?></title>
+  <title>CENTRALFILE | <?php echo $content['title']; ?></title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -29,7 +29,7 @@
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white">
       <div class="logo">
-        <a href="#" class="simple-text logo-normal">SISTA</a>
+        <a href="#" class="simple-text logo-normal">CentralFile</a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
@@ -51,30 +51,23 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="<?php echo base_url('profile'); ?>">
-                  <i class="material-icons">person</i> <?php echo $this->session->userdata['fullname']; ?>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="<?php echo base_url('logout'); ?>">
-                  <i class="material-icons">meeting_room</i> Logout
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </nav>
       <div class="content">
         <div class="container-fluid">
           <ol class="breadcrumb" style="background:white;">
-            <li class="breadcrumb-item">SISTA</li>
+            <li class="breadcrumb-item">CentralFile</li>
             <li class="breadcrumb-item"><?php echo ucfirst($this->session->userdata['role']); ?></li>
             <li class="breadcrumb-item active"><?php echo ucfirst($content['title']); ?></li>
           </ol>
           <?php $this->load->view('notification/'.$content['notification']); ?>
-          <?php $this->load->view($this->session->userdata['role'].'/'.$content['view_name']); ?>
+          <?php
+          if ($content['view_name'] == 'document1' | $content['view_name'] == 'document0') {
+            $this->load->view($content['view_name']);
+          } else {
+            $this->load->view($this->session->userdata['role'].'/'.$content['view_name']);
+          }?>
         </div>
       </div>
       <footer class="footer">
@@ -85,7 +78,7 @@
             <script>
               document.write(new Date().getFullYear())
             </script>,
-            Departemen Teknik Lingkungan UNDIP
+            Balai Monitoring Frekuensi Radio Kelas I Semarang
           </div>
           <!-- your footer here -->
         </div>

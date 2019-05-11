@@ -11,8 +11,7 @@ class Account_model extends CI_model{
   //core
   public function getAllData($table)
   {
-    $query = $this->db->get($table);
-    return $query->result();
+    return $this->db->get($table)->result();
   }
 
   public function getDataRow($table, $var, $val)
@@ -52,12 +51,12 @@ class Account_model extends CI_model{
     return $status;
   }
 
-  public function uploadPicture($filename)
+  public function uploadFile($filename,$allowedFile)
   {
     $config['upload_path'] = APPPATH.'../assets/upload/';
     $config['overwrite'] = TRUE;
-    $config['file_name']     = $filename;
-    $config['allowed_types'] = 'jpg|png';
+    $config['file_name']     =  str_replace(' ','_',$filename);
+    $config['allowed_types'] = $allowedFile;
     $this->load->library('upload', $config);
     if (!$this->upload->do_upload('fileUpload')) {
       $upload['status']=0;
@@ -65,6 +64,7 @@ class Account_model extends CI_model{
     } else {
       $upload['status']=1;
       $upload['message'] = "File berhasil di upload";
+      $upload['ext'] = $this->upload->data('file_ext');
     }
     return $upload;
   }
@@ -79,93 +79,18 @@ class Account_model extends CI_model{
     return $data;
   }
 
-  public function sentEmail($id, $subject, $message)
-  {
-    $account = $this->getDataRow('view_'.$this->getDataRow('account', 'id', $id)->role, 'id', $id);
-    $emailConf = $this->getDataRow('webconf', 'id', 1);
-    $config = [
-      'protocol' => 'sentmail',
-      'smtp_host' => $emailConf->host,
-      'smtp_user' => $emailConf->username,
-      'smtp_pass' => $emailConf->password,
-      'smtp_crypto' => $emailConf->crypto,
-      'charset' => 'utf-8',
-      'crlf' => 'rn',
-      'newline' => "\r\n", //REQUIRED! Notice the double quotes!
-      'smtp_port' => $emailConf->port
-    ];
-    $this->load->library('email', $config);
-    $this->email->from($emailConf->email);
-    $this->email->to($account->email);
-    $this->email->subject($subject);
-    $this->email->message('
-    Yth. '.$account->fullname.'
-    Di tempat.
-
-    '.$message.'
-
-    Atas perhatiannya kami ucapkan terima kasih.
-
-    Admin
-    ');
-    $sent = $this->email->send();
-    error_reporting(0);
-  }
-
   public function setSession($id)
   {
-//    $query = $this->getDataRow2('account', 'username', $this->input->post('username'), 'password', md5($this->input->post('password')));
-    $query = $this->getDataRow('account', 'id', $id);
-    $account = $this->getDataRow('view_'.$query->role,'id', $id);
-    if ($query->role=='admin') {
-      $data= array(
-        'login' => true,
-        'role' => $query->role,
-        'id' => $account->id,
-        'username' => $account->username,
-        'password' => $account->password,
-        'fullname' => $account->fullname,
-        'email' => $account->email,
-        'nip' => $account->nip,
-        'display_picture' => $account->display_picture,
-       );
-    } elseif ($query->role=='dosen') {
-      $data = array(
-        'login' => true,
-        'role' => $query->role,
-        'id' => $account->id,
-        'username' => $account->username,
-        'password' => $account->password,
-        'fullname' => $account->fullname,
-        'nip' => $account->nip,
-        'email' => $account->email,
-        'day_off' => $account->day_off,
-        'id_tema_1' => $account->id_tema_1,
-        'tema_1' => $account->tema_1,
-        'id_tema_2' => $account->id_tema_2,
-        'tema_2' => $account->tema_2,
-        'display_picture' => $account->display_picture,
-        'superdosen' => $account->superdosen
-        //tambahin
-       );
-    } elseif ($query->role=='mahasiswa') {
-      $data = array(
-        'login' => true,
-        'role' => $query->role,
-        'id' => $account->id,
-        'nim' => $account->nim,
-        'username' => $account->username,
-        'password' => $account->password,
-        'fullname' => $account->fullname,
-        'email' => $account->email,
-        'no_hp' => $account->no_hp,
-        'skp' => $account->skp,
-        'sta' => $account->sta,
-        'id_dosen' => $account->id_dosen,
-        'display_picture' => $account->display_picture,
-        'dosen_wali' => $account->dosen_wali
-       );
-    }
+    $account = $this->getDataRow('account', 'id', $id);
+    $data= array(
+      'login' => true,
+      'role' => $account->role,
+      'id' => $account->id,
+      'username' => $account->username,
+      'password' => $account->password,
+      'fullname' => $account->fullname,
+      'display_picture' => $account->display_picture,
+    );
     return $data;
   }
 
@@ -189,27 +114,8 @@ class Account_model extends CI_model{
     return $data;
   }
 
-  public function cForgotPassword($notification)
-  {
-    $data['notification'] = 'fpass'.($notification);
-    return $data;
-  }
-
-  public function resetPassword()
-  {
-    $validation = $this->findUsername($this->input->post('username'));
-    if ($validation['status']==1) {
-      $newPassword = rand(100001,999999);
-      $this->updateData('account', 'id', $validation['account']->id, 'password', md5($newPassword));
-      $content = ' Bersamaan dengan email ini kami informasikan bahwa proses reset password anda berhasil, password baru anda adalah = '.$newPassword.'. silahkan kunjungi halaman http://sista.co.id';
-      $this->sentEmail($validation['account']->id, 'Reset Password SISTA', $content);
-    }
-    return $validation['status'];
-  }
-
   public function cProfile($notification)
   {
-    $data['theme'] = $this->getAllData('view_tema');
     $data['notification'] = 'profile'.$notification.$this->session->userdata['role'];
     $data['view_name'] = 'profile';
     $data['title'] = 'Profil';
@@ -221,35 +127,28 @@ class Account_model extends CI_model{
     $where = array('id' => $this->session->userdata['id']);
     if ($this->input->post('password')=="") {
       $this->updateData('account', 'id', $this->session->userdata['id'], 'username', $this->input->post('username'));
+      $account['status'] = $this->updateData('account', 'id', $this->session->userdata['id'], 'fullname', $this->input->post('fullname'));
     } else {
       $this->updateData('account', 'id', $this->session->userdata['id'], 'username', $this->input->post('username'));
       $this->updateData('account', 'id', $this->session->userdata['id'], 'password', md5($this->input->post('username')));
+      $account['status'] = $this->updateData('account', 'id', $this->session->userdata['id'], 'fullname', $this->input->post('fullname'));
     }
-    if ($this->session->userdata['role']=='admin'){
-      $data = array('nip' => $this->input->post('nip'), 'fullname' => $this->input->post('fullname'), 'email' => $this->input->post('email'));
-    } elseif ($this->session->userdata['role'] == 'mahasiswa') {
-      $data = array('nim' => $this->input->post('nim'), 'fullname' => $this->input->post('fullname'), 'email' => $this->input->post('email'), 'no_hp' => $this->input->post('no_hp'));
-    } elseif ($this->session->userdata['role'] == 'dosen') {
-      $data = array('nip' => $this->input->post('nip'), 'fullname' => $this->input->post('fullname'), 'email' => $this->input->post('email'), 'no_hp' => $this->input->post('no_hp'), 'id_tema_1' => $this->input->post('id_tema_1'), 'id_tema_2' => $this->input->post('id_tema_2'));
-    }
-    $this->db->where($where);
-    $account['status'] = $this->db->update('account_'.$this->session->userdata['role'], $data);
     $account['session'] = $this->setSession($this->session->userdata['id']);
     return $account;
   }
 
   public function updatePicture()
   {
-    $status['upload'] = $this->uploadPicture("display_picture_".$this->session->userdata['id']);
+    $status['upload'] = $this->uploadFile("display_picture_".$this->session->userdata['id'],'jpg|png');
     $status['status'] = $status['upload']['status']+3;
-    $this->updateData('account_'.$this->session->userdata['role'], 'id', $this->session->userdata['id'], 'display_picture', "display_picture_".$this->session->userdata['id'].'.jpg');
+    $this->updateData('account', 'id', $this->session->userdata['id'], 'display_picture', "display_picture_".$this->session->userdata['id'].'.jpg');
     $status['session'] = $this->setSession($this->session->userdata['id']);
     return $status;
   }
 
   public function deleteDP($filename)
   {
-    $status['status'] = $this->updateData('account_'.$this->session->userdata['role'], 'id', $this->session->userdata['id'], 'display_picture', 'no.jpg');
+    $status['status'] = $this->updateData('account', 'id', $this->session->userdata['id'], 'display_picture', 'no.jpg');
     $status['session'] = $this->setSession($this->session->userdata['id']);
     return $status;
   }
@@ -268,6 +167,29 @@ class Account_model extends CI_model{
     $data['view_name'] = 'no';
     $data['notification'] = 'error404';
     return $data;
+  }
+
+  public function cDocument($filename)
+  {
+    if ($filename==null) {
+      $data['list'] = $this->getAllData('view_document');
+    } else {
+      $data['list'] = $this->db->query('select * from view_document where document_name LIKE "%'.$filename.'%"')->result();
+    }
+    $data['title'] = 'Rekap Dokumen';
+    $data['view_name'] = 'document'.$this->session->userdata['login'];
+    $data['notification'] = 'no';
+    return $data;
+  }
+
+  public function processUploadFile()
+  {
+    $upload = $this->uploadFile($this->input->post('document_name'), 'pdf|xls|xlsx|doc|docx|jpg');
+    if($upload['status']==1){
+      $data = array('document_name' => $this->input->post('document_name'), 'document_info' => $this->input->post('document_info'), 'contributor_id' => $this->session->userdata['id'], 'address' => str_replace(' ','_',$this->input->post('document_name')).$this->upload->data('file_ext'));
+      $this->db->insert('document', $data);
+    }
+    return $upload;
   }
 
 }

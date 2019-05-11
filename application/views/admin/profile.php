@@ -21,25 +21,12 @@
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control" placeholder="Masukan email anda" value="<?php echo $this->session->userdata['email']; ?>" required>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 pr-1">
-              <div class="form-group">
                 <label>Nama Lengkap</label>
                 <input type="text" name="fullname" class="form-control" placeholder="Masukan nama lengkap anda" value="<?php echo $this->session->userdata['fullname']; ?>" required>
               </div>
             </div>
-            <div class="col-md-6 pl-1">
-              <div class="form-group">
-                <label>NIP</label>
-                <input type="text" name="nip" class="form-control" placeholder="Masukan nomor induk pegawai anda" value="<?php echo $this->session->userdata['nip']; ?>" required>
-              </div>
-            </div>
           </div>
+
           <div class="button-container">
             <button type="submit" name="updateAccount" value="updateAccount" class="btn btn-primary">Simpan Data</button>
           </div>
@@ -55,9 +42,6 @@
       <div class="card-body">
         <center>
         <div class="author">
-            <br>
-            <h5 class="title"><b><?php echo $this->session->userdata['fullname']?></b></h5>
-            <?php echo "@".$this->session->userdata['username']?>
         </div>
         <p class="description text-center"><?php echo $this->session->userdata['email']?></p>
         <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update Foto Profil</button>

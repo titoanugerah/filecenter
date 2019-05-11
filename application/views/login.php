@@ -5,7 +5,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url('./assets/template/uikit'); ?>/assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="<?php echo base_url('./assets/logo/wardah.png'); ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>SISTA </title>
+  <title>CentralFile</title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -27,7 +27,7 @@
         </a>
       </div>
       <div class="navbar-translate">
-        <a class="navbar-brand" href="<?php echo base_url(''); ?>" rel="tooltip" title="Sistem Informasi Kerja Praktik dan Tugas Akhir Departemen Teknik Lingkungan Universitas Diponegoro " data-placement="bottom" target="_blank">SISTA Teknik Lingkungan UNDIP</a>
+        <a class="navbar-brand" href="<?php echo base_url(''); ?>" rel="tooltip" title="Central File Balai Monitoring Frekuensi Radio Semarang " data-placement="bottom" target="_blank">Central File</a>
         <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-bar top-bar"></span>
           <span class="navbar-toggler-bar middle-bar"></span>
@@ -75,7 +75,6 @@
               <div class="card-footer text-center">
                 <button type="submit" name="loginValidation" value="loginValidation" class="btn btn-primary btn-round btn-lg btn-block">Login</button>
                 <div class="pull-right">
-                  <h6><a href="<?php echo base_url('forgotPassword'); ?>" class="link">Lupa Password?</a></h6>
                 </div>
 
             </form>
@@ -91,7 +90,7 @@
             <script>
             document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
           </script>,
-          <a href="https://lingkungan.ft.undip.ac.id" target="_blank">Departemen Teknik Lingungan UNDIP</a> &nbsp; X  &nbsp;
+          <a href="https://lingkungan.ft.undip.ac.id" target="_blank">Balai Monitoring Frekuensi Radio Kelas I Semarang</a> &nbsp; X  &nbsp;
           <a target="_blank">Tito Anugerah Maharizky</a>.
         </div>
       </div>

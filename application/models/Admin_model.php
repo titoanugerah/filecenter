@@ -131,11 +131,8 @@ class Admin_model extends CI_model{
   {
     $where = array('id' => 1 );
     $data = array(
-      'host' => $this->input->post('host'),
-      'username' => $this->input->post('username'),
-      'password' => $this->input->post('password'),
-      'port' => $this->input->post('port'),
-      'crypto' => $this->input->post('crypto')
+      'client_name' => $this->input->post('client_name'),
+      'web_name' => $this->input->post('web_name')
     );
     $this->db->where($where);
     $update['status']  = $this->db->update('webconf',$data);
@@ -152,8 +149,7 @@ class Admin_model extends CI_model{
 
   public function cAccount($notification)
   {
-    $data['mahasiswa'] = $this->admin_model->getAllData('view_mahasiswa');
-    $data['dosen'] = $this->admin_model->getAllData('view_dosen');
+    $data['account'] = $this->admin_model->getAllData('account');
     $data['title'] = 'Pengaturan Akun';
     $data['view_name'] = 'account';
     $data['notification'] = 'account'.$notification;
@@ -162,22 +158,16 @@ class Admin_model extends CI_model{
 
   public function createAccount()
   {
-    $password = rand(100001,999999);
-    $data = array('username' => $this->input->post('username'), 'role' => $this->input->post('role'), 'password'=>md5($password));
-    $this->db->insert('account', $data);
-    $id = $this->db->insert_id();
-    $data = array('id' => $id, 'email' => $this->input->post('email'),'display_picture'=> 'no.jpg');
-    $this->db->insert('account_'.$this->input->post('role'),$data);
-    $content = "Bersamaan dengan email ini kami informasikan bahwa proses pendaftaran akun anda sudah berhasil, silahkan login ke http://sista.co.id/ dengan username :".$this->input->post('username')." dan password : ".$password;
-    $status['status'] = $this->sentEmail($id, 'Selamat datang di SISTA', $content);
+    $data = array('username' => $this->input->post('username'), 'fullname' => $this->input->post('fullname'), 'role' => 'contributor', 'password'=>md5('0000'), 'display_picture' => 'no.jpg');
+    $status['status'] = $this->db->insert('account', $data);
     return $status;
   }
 
   public function cDetailAccount($id, $notification)
   {
-    $data['account'] = $this->admin_model->getDataRow('view_'.$this->getDataRow('account', 'id', $id)->role, 'id', $id);
+    $data['account'] = $this->admin_model->getDataRow('account', 'id', $id);
     $data['title'] = 'Detail Akun @'.$data['account']->username;
-    $data['view_name'] = 'detailAccount'.ucfirst($this->getDataRow('account', 'id', $id)->role);
+    $data['view_name'] = 'detailAccount';
     $data['notification'] = 'detailAccount'.$notification;
     return $data;
   }
@@ -185,19 +175,16 @@ class Admin_model extends CI_model{
   public function deleteAccount($id)
   {
     if (md5($this->input->post('password'))==$this->session->userdata['password']) {
-      $delete['status'] = $this->deleteData('account_'.$this->getRole($id), 'id', $id);
-      $this->deleteData('account', 'id', $id);
+      $delete['status'] = $this->deleteData('account', 'id', $id);
     } else {
       $delete['status'] = 0;
     }
     return (int)$delete['status']+1;
   }
 
-  public function updateAccount($id)
+  public function resetPassword($id)
   {
-    $operation['status'] =  $this->updateData('account_dosen', 'id', $id, 'superdosen', $this->input->post('superdosen'));
-    $operation['status'] =  $this->updateData('account_dosen', 'id', $id, 'kuota_kp', $this->input->post('kuota_kp'));
-    $operation['status'] =  $this->updateData('account_dosen', 'id', $id, 'kuota_ta', $this->input->post('kuota_ta'));
+    $operation['status'] =  $this->updateData('account', 'id', $id, 'password', md5('0000'));
     return $operation;
   }
 
@@ -216,13 +203,12 @@ class Admin_model extends CI_model{
     return $operation;
   }
 
-  public function cDetailTheme($id, $notification)
+  public function cDetailDocument($id)
   {
-    $data['detail'] = $this->getDataRow('view_tema', 'id', $id);
-    $data['listDosen'] = $this->db->query('select * from view_dosen where id_tema_1 = '.$id.' or id_tema_2 = '.$id)->result();
-    $data['title'] = 'Detail Tema';
-    $data['view_name'] = 'detailTheme';
-    $data['notification'] = 'operation'.$notification;
+    $data['detail'] = $this->getDataRow('view_document', 'id', $id);
+    $data['title'] = 'Detail Dokumen';
+    $data['view_name'] = 'detail';
+    $data['notification'] = 'no';
     return $data;
   }
 
