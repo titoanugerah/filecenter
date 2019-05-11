@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 #DEFAULT STRUCTURE
-$route['default_controller'] = 'account/dashboard';
+$route['default_controller'] = 'account/document';
 $route['404_override'] = 'account/error404';
 $route['translate_uri_dashes'] = FALSE;
 
