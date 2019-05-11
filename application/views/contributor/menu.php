@@ -11,11 +11,6 @@
   </a>
 </li>
 <li class="nav-item active">
-  <a class="nav-link" href="<?php echo base_url('profile'); ?>">
-    <i class="material-icons">person</i> Profil
-  </a>
-</li>
-<li class="nav-item active">
   <a class="nav-link" href="<?php echo base_url('logout'); ?>">
     <i class="material-icons">meeting_room</i> Logout
   </a>
