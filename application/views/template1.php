@@ -30,11 +30,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo-normal">CentralFile</a>
       </div>
-      <div class="sidebar-wrapper">
-        <ul class="nav">
-          <?php $this->load->view($this->session->userdata['role'].'/menu'); ?>
-        </ul>
-      </div>
+
     </div>
     <div class="main-panel">
       <!-- Navbar -->
@@ -57,12 +53,11 @@
         <div class="container-fluid">
           <ol class="breadcrumb" style="background:white;">
             <li class="breadcrumb-item">CentralFile</li>
-            <li class="breadcrumb-item"><?php echo ucfirst($this->session->userdata['role']); ?></li>
+            <li class="breadcrumb-item"><?php echo 'user'; ?></li>
             <li class="breadcrumb-item active"><?php echo ucfirst($content['title']); ?></li>
           </ol>
-          <?php $this->load->view('notification/'.$content['notification']); ?>
           <?php
-          if ($content['view_name'] == 'document1' | $content['view_name'] == 'document0') {
+          if ($content['view_name'] == 'document1' | $content['view_name'] == 'document') {
             $this->load->view($content['view_name']);
           } else {
             $this->load->view($this->session->userdata['role'].'/'.$content['view_name']);

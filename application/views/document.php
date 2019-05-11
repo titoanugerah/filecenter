@@ -2,7 +2,6 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-body">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Upload Dokumen Baru</button>
         <button class="btn btn-info" data-toggle="modal" data-target="#myModal1">Pencarian</button>
         <table class="table">
           <thead>
@@ -24,13 +23,6 @@
                         <i class="material-icons">archive</i>Download
                       </button>
                     </a>
-                    <a href="<?php echo base_url('detail'.ucfirst($this->session->userdata['role'])).'/'.$item->id; ?>">
-                      <button type="button" rel="tooltip" class="btn btn-info">
-                        <i class="material-icons">import_contacts</i>Detail
-                      </button>
-
-                    </a>
-
                   </center>
                 </td>
                 <?php $i++; endforeach; ?>

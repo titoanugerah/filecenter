@@ -63,8 +63,13 @@ class Account extends CI_Controller{
     if($this->input->post('uploadFile')){$update = $this->account_model->processUploadFile();}
     elseif($this->input->post('findFile')){$update['file'] = $this->input->post('document_name');}
     $data['content'] = $this->account_model->cDocument($update['file']);
+    if ($this->session->userdata['login']==1) {
+      $this->load->view('template', $data);
+    } else {
+      $this->load->view('template1', $data);
 
-    $this->load->view('template', $data);
+    }
+
   }
 
   public function download($id)

@@ -20,4 +20,8 @@ $route['account'] = 'admin/account';
 $route['detailAccount/(:any)'] = 'admin/detailAccount/$1';
 $route['detailAdmin/(:any)'] = 'admin/detailAdmin/$1';
 
+
+#CONTRIBUTOR AREA
+$route['detailContributor/(:any)'] = 'contributor/detailContributor/$1';
+
 #TEMPLATE

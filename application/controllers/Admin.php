@@ -43,8 +43,9 @@ class Admin extends CI_Controller{
 
   public function detailAdmin($id)
   {
-    if ($this->input->post('updateTheme')) {$operation = $this->admin_model->updateTheme($id);}
-    elseif ($this->input->post('deleteTheme')) {$operation = $this->admin_model->deleteTheme($id); if($operation['status']==5){redirect(base_url($operation['redirect']));}}
+    if ($this->input->post('updateDocument')) {$operation = $this->admin_model->updateDocument($id);}
+    elseif ($this->input->post('deleteDocument')) {$operation = $this->admin_model->deleteDocument($id); if($operation['status']==1){redirect(base_url($operation['redirect']));}}
+    elseif ($this->input->post('uploadDocument')) {$operation = $this->admin_model->uploadRevision($id);}
     $data['content'] = $this->admin_model->cDetailDocument($id);
     $this->load->view('template', $data);
 
