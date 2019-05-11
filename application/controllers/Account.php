@@ -24,7 +24,7 @@ class Account extends CI_Controller{
   public function logout()
   {
     $this->session->sess_destroy();
-    redirect(base_url('login/4'));
+    redirect(base_url(''));
   }
 
   public function dashboard()

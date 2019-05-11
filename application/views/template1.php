@@ -30,7 +30,16 @@
       <div class="logo">
         <a href="#" class="simple-text logo-normal">CentralFile</a>
       </div>
-
+      <div class="sidebar-wrapper">
+        <ul class="nav">
+          <li class="nav-item active">
+            <a class="nav-link" href=" <?php echo base_url('login'); ?> ">
+              <i class="material-icons">dashboard</i>
+              <p>Login</p>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="main-panel">
       <!-- Navbar -->
@@ -39,6 +48,7 @@
           <div class="navbar-wrapper">
             <h2>&nbsp;<?php echo "".$content['title']; ?></h2>
           </div>
+
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
